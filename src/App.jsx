@@ -5,8 +5,9 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 function App() {
   const [todos, setTodos] = useState([]); 
   const [todoText, setTodoText] = useState(""); 
-  const [editingIndex, setEditingIndex] = useState(null); 
-  const [editText, setEditText] = useState("");
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editText, setEditText] = useState(""); 
+  const [searchText, setSearchText] = useState(""); 
 
   // LocalStorage'dan todolarni yuklash
   useEffect(() => {
@@ -23,9 +24,9 @@ function App() {
   const addTodo = (e) => {
     e.preventDefault();
     if (todoText.trim() === "") {
-      return;
+      return; 
     } else if (todos.includes(todoText)) {
-      return;
+      return; 
     } else {
       const newTodos = [...todos, todoText];
       setTodos(newTodos);
@@ -41,8 +42,7 @@ function App() {
     saveTodos(newTodos);
   };
 
-  
- 
+
 
   // Todoni tahrirlashni boshlash
   const startEdit = (index) => {
@@ -60,16 +60,32 @@ function App() {
       newTodos[editingIndex] = editText;
       setTodos(newTodos);
       saveTodos(newTodos);
-      setEditingIndex(null); 
-      setEditText("")
+      setEditingIndex(null)
+      setEditText("");
     }
   };
+
+  // Qidiruv natijalarini filtrlash
+  const filteredTodos = todos.filter((todo) =>
+    todo.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#caf0f8] flex flex-col items-center py-10">
       <h1 className="text-4xl font-bold text-gray-800 mt-12 mb-6">
         ToDo List!
       </h1>
+    
+      <div className="w-full max-w-md mb-4">
+        <input
+          type="text"
+          placeholder="Qidirish..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+     
       <form onSubmit={addTodo} className="mb-6 w-full max-w-md">
         <div className="flex gap-2">
           <input
@@ -87,15 +103,16 @@ function App() {
           </button>
         </div>
       </form>
+    
       <ul className="w-full max-w-md space-y-2">
-        {todos.map((todo, index) => (
+        {filteredTodos.map((todo, index) => (
           <li
             key={index}
             id={`todo-${index}`}
             className="flex justify-between items-center p-3 bg-white border border-gray-200 rounded-lg shadow-sm"
           >
             {editingIndex === index ? (
-              // Tahrirlash rejimi
+             
               <form onSubmit={saveEdit} className="flex-1 flex gap-2">
                 <input
                   type="text"
@@ -111,7 +128,7 @@ function App() {
                 </button>
               </form>
             ) : (
-              // Oddiy ko'rinish
+             
               <>
                 <span>{todo}</span>
                 <div className="flex gap-2">
@@ -127,8 +144,7 @@ function App() {
                   >
                     <RiDeleteBin5Fill />
                   </button>
-
-
+                
                 </div>
               </>
             )}

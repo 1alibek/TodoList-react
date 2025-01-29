@@ -3,10 +3,10 @@ import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
 function App() {
-  const [todos, setTodos] = useState([]); // Todo ro'yxati
-  const [todoText, setTodoText] = useState(""); // Yangi todo input qiymati
-  const [editingIndex, setEditingIndex] = useState(null); // Tahrirlanayotgan todo indeksi
-  const [editText, setEditText] = useState(""); // Tahrirlash input qiymati
+  const [todos, setTodos] = useState([]); 
+  const [todoText, setTodoText] = useState(""); 
+  const [editingIndex, setEditingIndex] = useState(null); 
+  const [editText, setEditText] = useState("");
 
   // LocalStorage'dan todolarni yuklash
   useEffect(() => {
@@ -23,9 +23,9 @@ function App() {
   const addTodo = (e) => {
     e.preventDefault();
     if (todoText.trim() === "") {
-      return; // Bo'sh qiymat kiritilganda hech narsa qilmaymiz
+      return;
     } else if (todos.includes(todoText)) {
-      return; // Takrorlanmasligini tekshiramiz
+      return;
     } else {
       const newTodos = [...todos, todoText];
       setTodos(newTodos);
@@ -54,14 +54,14 @@ function App() {
   const saveEdit = (e) => {
     e.preventDefault();
     if (editText.trim() === "") {
-      return; // Bo'sh qiymat kiritilganda hech narsa qilmaymiz
+      return; 
     } else {
       const newTodos = [...todos];
       newTodos[editingIndex] = editText;
       setTodos(newTodos);
       saveTodos(newTodos);
-      setEditingIndex(null); // Tahrirlash rejimini yopamiz
-      setEditText(""); // Inputni tozalaymiz
+      setEditingIndex(null); 
+      setEditText("")
     }
   };
 
@@ -128,7 +128,7 @@ function App() {
                     <RiDeleteBin5Fill />
                   </button>
 
-                  
+
                 </div>
               </>
             )}
